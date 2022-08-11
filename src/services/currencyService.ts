@@ -49,10 +49,17 @@ export class CurrencyService extends BaseService implements DatabaseServiceInter
 
     async createCurrency(currency: Currency) {
         try {
+            const hasSomeCurrencySameShortName = await this.collection.findOne({shortName: currency.shortName});
+            if(hasSomeCurrencySameShortName) {
+                throw new HttpException(400, 'A currency with this exact short name already exists and therefore cannot be created.')
+            }
             await this.collection.insertOne(currency);
         }
         catch (e) {
             logger.error(e);
+            if(e instanceof HttpException) {
+                throw e;
+            }
             throw new HttpException(500, 'Cannot create currency.')
         }
     }
