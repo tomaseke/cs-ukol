@@ -7,7 +7,6 @@ import {MostVolatileCurrenciesService} from "../services/mostVolatileCurrencies.
 export class ServerBootstrap {
 
     protected server: Server;
-
     protected currencyService;
     protected mostVolatileCurrenciesService;
 

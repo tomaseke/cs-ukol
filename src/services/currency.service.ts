@@ -1,7 +1,7 @@
 import {Collection, Db, MongoClient} from "mongodb";
 import {DbConnectionService} from "./dbConnection.service";
 import {CurrencyModel} from "../models/currency.model";
-import {SearchFilter} from "../models/searchFilter";
+import {SearchFilterModel} from "../models/searchFilter.model";
 import {HttpException} from "../exceptions/httpException";
 import {config} from "../config";
 
@@ -61,7 +61,7 @@ export class CurrencyService {
         }
     }
 
-    async deleteCurrency(queryParams: SearchFilter): Promise<void> {
+    async deleteCurrency(queryParams: SearchFilterModel): Promise<void> {
         try {
             const filter = this.createFilter(queryParams);
             await this.collection.deleteOne(filter);
@@ -72,8 +72,8 @@ export class CurrencyService {
         }
     }
 
-    private createFilter(queryParams: SearchFilter): SearchFilter {
-        const filter = {} as SearchFilter;
+    private createFilter(queryParams: SearchFilterModel): SearchFilterModel {
+        const filter = {} as SearchFilterModel;
         if(queryParams.name){
             filter.name = queryParams.name;
         }

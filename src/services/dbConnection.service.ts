@@ -14,14 +14,14 @@ export class DbConnectionService {
         );
     }
 
-    public static getInstance(){
+    static getInstance(){
         if (!DbConnectionService.instance){
             DbConnectionService.instance = new DbConnectionService();
         }
         return DbConnectionService.instance;
     }
 
-    public getMongoClient(){
+    getMongoClient(){
         return this.mongoClient;
     }
 }

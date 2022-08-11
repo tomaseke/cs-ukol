@@ -1,6 +1,6 @@
 import express, {RequestHandler} from "express";
 import {CurrencyService} from "../services/currency.service";
-import {SearchFilter} from "../models/searchFilter";
+import {SearchFilterModel} from "../models/searchFilter.model";
 import {validateCurrencyMiddleware} from "../middlewares/validateCurrency.middleware";
 import {BaseControllerInterface} from "./base.controller.interface";
 
@@ -22,7 +22,7 @@ export class CurrencyController implements BaseControllerInterface{
 
     getCurrencies: RequestHandler = async (req: any, res, next: express.NextFunction) => {
         try {
-            const filter: SearchFilter = CurrencyController.getQueryParams(req);
+            const filter: SearchFilterModel = CurrencyController.getQueryParams(req);
             const currencies = await this.currencyService.getCurrencies(filter);
             res.status(200).send(currencies);
         }
@@ -55,7 +55,7 @@ export class CurrencyController implements BaseControllerInterface{
 
     deleteCurrency: RequestHandler = async (req: any, res, next: express.NextFunction) => {
         try {
-            const filter: SearchFilter = CurrencyController.getQueryParams(req);
+            const filter: SearchFilterModel = CurrencyController.getQueryParams(req);
             await this.currencyService.deleteCurrency(filter);
             res.status(200).send();
         }
