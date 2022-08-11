@@ -1,8 +1,8 @@
 import {MongoClient} from "mongodb";
-import {config} from "../../config";
+import {config} from "../config";
 
-export class DBConnectionsService{
-    private static instance: DBConnectionsService
+export class DbConnectionService {
+    private static instance: DbConnectionService
     private readonly mongoClient: Promise<MongoClient>
 
     constructor() {
@@ -15,10 +15,10 @@ export class DBConnectionsService{
     }
 
     public static getInstance(){
-        if (!DBConnectionsService.instance){
-            DBConnectionsService.instance = new DBConnectionsService()
+        if (!DbConnectionService.instance){
+            DbConnectionService.instance = new DbConnectionService();
         }
-        return DBConnectionsService.instance;
+        return DbConnectionService.instance;
     }
 
     public getMongoClient(){

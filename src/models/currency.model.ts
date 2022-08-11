@@ -1,4 +1,4 @@
-export class Currency {
+export class CurrencyModel {
     name: string;
     shortName: string;
     country: string;

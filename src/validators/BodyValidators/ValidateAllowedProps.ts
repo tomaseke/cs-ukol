@@ -1,6 +1,6 @@
 import express from "express";
-import {HttpException} from "../../exceptions/HttpException";
-import {currencyAsObject} from "../../models/Currency";
+import {HttpException} from "../../exceptions/httpException";
+import {currencyAsObject} from "../../models/currency.model";
 
 export class ValidateAllowedProps{
 

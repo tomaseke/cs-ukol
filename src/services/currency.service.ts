@@ -1,11 +1,11 @@
 import {Collection, Db, MongoClient} from "mongodb";
-import {DBConnectionsService} from "./databases/DBConnections.service";
-import {Currency} from "../models/Currency";
-import {SearchFilter} from "../models/SearchFilter";
-import {HttpException} from "../exceptions/HttpException";
+import {DbConnectionService} from "./dbConnection.service";
+import {CurrencyModel} from "../models/currency.model";
+import {SearchFilter} from "../models/searchFilter";
+import {HttpException} from "../exceptions/httpException";
 import {config} from "../config";
 
-export class CurrencyService{
+export class CurrencyService {
 
     client: MongoClient;
     db: Db;
@@ -16,16 +16,16 @@ export class CurrencyService{
     }
 
     async connectDB() {
-        const dbConnection = DBConnectionsService.getInstance();
+        const dbConnection = DbConnectionService.getInstance();
         this.client = await dbConnection.getMongoClient();
         this.db = this.client.db(config.mongoDatabase);
         this.collection = this.db.collection(config.mongoCollectionCurrencies);
     }
 
-    async getCurrencies(queryParams): Promise<Currency[]> {
+    async getCurrencies(queryParams): Promise<CurrencyModel[]> {
         try {
             const filter = this.createFilter(queryParams);
-            return await this.collection.find(filter).toArray() as unknown as Currency[];
+            return await this.collection.find(filter).toArray() as unknown as CurrencyModel[];
         }
         catch (e) {
             console.error(e);
@@ -33,18 +33,7 @@ export class CurrencyService{
         }
     }
 
-    private createFilter(queryParams: SearchFilter) {
-        const filter = {} as SearchFilter;
-        if(queryParams.name){
-            filter.name = queryParams.name;
-        }
-        if(queryParams.shortName){
-            filter.shortName = queryParams.shortName;
-        }
-        return filter;
-    }
-
-    async createCurrency(currency: Currency) {
+    async createCurrency(currency: CurrencyModel): Promise<void> {
         try {
             const hasSomeCurrencySameShortName = await this.collection.findOne({shortName: currency.shortName});
             if(hasSomeCurrencySameShortName) {
@@ -61,7 +50,7 @@ export class CurrencyService{
         }
     }
 
-    async updateCurrency(currency: Currency) {
+    async updateCurrency(currency: CurrencyModel): Promise<void> {
         try {
             const filter = { shortName: currency.shortName };
             await this.collection.updateOne(filter, {$set: currency});
@@ -72,7 +61,7 @@ export class CurrencyService{
         }
     }
 
-    async deleteCurrency(queryParams: SearchFilter) {
+    async deleteCurrency(queryParams: SearchFilter): Promise<void> {
         try {
             const filter = this.createFilter(queryParams);
             await this.collection.deleteOne(filter);
@@ -81,5 +70,16 @@ export class CurrencyService{
             console.error(e);
             throw new HttpException(500, 'Cannot delete currency.')
         }
+    }
+
+    private createFilter(queryParams: SearchFilter): SearchFilter {
+        const filter = {} as SearchFilter;
+        if(queryParams.name){
+            filter.name = queryParams.name;
+        }
+        if(queryParams.shortName){
+            filter.shortName = queryParams.shortName;
+        }
+        return filter;
     }
 }

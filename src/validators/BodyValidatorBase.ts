@@ -1,7 +1,7 @@
 import express from "express";
-import {ValidateRequiredProps} from "./BodyValidators/ValidateRequiredProps";
-import {ValidateAllowedProps} from "./BodyValidators/ValidateAllowedProps";
-import {ValidateShortName} from "./BodyValidators/ValidateShortName";
+import {ValidateRequiredProps} from "./bodyValidators/validateRequiredProps";
+import {ValidateAllowedProps} from "./bodyValidators/validateAllowedProps";
+import {ValidateShortName} from "./bodyValidators/validateShortName";
 
 export class BodyValidatorBase {
 

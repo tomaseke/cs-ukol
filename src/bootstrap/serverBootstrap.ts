@@ -1,8 +1,8 @@
 import {Server} from "../server/server";
 import {CurrencyController} from "../controllers/currency.controller";
-import {CurrencyService} from "../services/currencyService";
+import {CurrencyService} from "../services/currency.service";
 import {MostVolatileCurrenciesController} from "../controllers/mostVolatileCurrencies.controller";
-import {MostVolatileCurrenciesService} from "../services/mostVolatileCurrenciesService";
+import {MostVolatileCurrenciesService} from "../services/mostVolatileCurrencies.service";
 
 export class ServerBootstrap {
 
@@ -18,13 +18,11 @@ export class ServerBootstrap {
 
     initServer(): void {
         const port = process.env.PORT || 8080;
-
         this.server = new Server(Number.parseInt(port.toString()), [
                 new CurrencyController(this.currencyService),
                 new MostVolatileCurrenciesController(this.mostVolatileCurrenciesService)
             ]
         );
-
         this.server.listen();
     }
 }

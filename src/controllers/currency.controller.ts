@@ -1,6 +1,6 @@
 import express, {RequestHandler} from "express";
-import {CurrencyService} from "../services/currencyService";
-import {SearchFilter} from "../models/SearchFilter";
+import {CurrencyService} from "../services/currency.service";
+import {SearchFilter} from "../models/searchFilter";
 import {validateCurrencyMiddleware} from "../middlewares/validateCurrency.middleware";
 import {BaseControllerInterface} from "./base.controller.interface";
 

@@ -1,5 +1,5 @@
 import express, {NextFunction} from "express";
-import {BodyValidatorBase} from "../validators/BodyValidatorBase";
+import {BodyValidatorBase} from "../validators/bodyValidatorBase";
 
 
 export function validateCurrencyMiddleware(request: express.Request, response: express.Response, next: NextFunction) {

@@ -1,5 +1,5 @@
 import express, {RequestHandler} from "express";
-import {MostVolatileCurrenciesService} from "../services/mostVolatileCurrenciesService";
+import {MostVolatileCurrenciesService} from "../services/mostVolatileCurrencies.service";
 
 
 export class MostVolatileCurrenciesController{

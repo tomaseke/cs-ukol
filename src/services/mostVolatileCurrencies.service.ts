@@ -1,4 +1,4 @@
-import {Currency} from "../models/Currency";
+import {CurrencyModel} from "../models/currency.model";
 
 const mockExchangeRates = [
     {
@@ -50,7 +50,7 @@ export class MostVolatileCurrenciesService{
     constructor() {}
 
     // @ts-ignore
-    getMostVolatileCurrencies(fromDate: Date, numberOfTheMostVolatileCurrs: number): Currency[] {
+    getMostVolatileCurrencies(fromDate: Date, numberOfTheMostVolatileCurrs: number): CurrencyModel[] {
         const currenciesAndTheirDelta = new Map();
         for (const currenciesAndTheirDeltaElement of currenciesAndTheirDelta) {
             
