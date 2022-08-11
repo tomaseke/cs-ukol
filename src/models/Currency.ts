@@ -3,5 +3,13 @@ export class Currency {
     shortName: string;
     country: string;
     cnbMid: number;
-    createdDate: Date;
+    createdDate: string;
+}
+
+export const currencyAsObject = {
+    name: 'string',
+    shortName: 'string',
+    country: 'string',
+    cnbMid: 'number',
+    createdDate: 'string'
 }

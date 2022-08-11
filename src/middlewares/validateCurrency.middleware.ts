@@ -1,13 +1,13 @@
 import express, {NextFunction} from "express";
-import {validateCurrency} from "../validators/BodyValidator";
+import {BodyValidatorBase} from "../validators/BodyValidatorBase";
 
 
 export function validateCurrencyMiddleware(request: express.Request, response: express.Response, next: NextFunction) {
     try {
-       validateCurrency(request.body);
-       next();
-    }
-    catch (e) {
+        const validator = new BodyValidatorBase(request);
+        validator.validate();
+        next();
+    } catch (e) {
         next(e);
     }
 }
