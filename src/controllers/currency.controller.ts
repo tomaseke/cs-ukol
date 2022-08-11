@@ -5,7 +5,7 @@ import {SearchFilter} from "../models/SearchFilter";
 
 
 export class CurrencyController implements BaseControllerInterface{
-    path = '/audit';
+    path = '/currencies';
     router = express.Router();
 
     constructor(private currencyService: CurrencyService) {
@@ -14,18 +14,56 @@ export class CurrencyController implements BaseControllerInterface{
 
     initRouter(): void {
         this.router.get('/', this.getCurrencies);
+        this.router.post('/', this.createCurrency);
+        this.router.patch('/', this.updateCurrency);
+        this.router.delete('/', this.deleteCurrency);
     }
 
     getCurrencies: RequestHandler = async (req: any, res, next: express.NextFunction) => {
         try {
-            const name = req.query.name;
-            const shortName = req.query.shortName;
-            const filter: SearchFilter = {name, shortName};
+            const filter: SearchFilter = CurrencyController.getQueryParams(req);
             const currencies = await this.currencyService.getCurrencies(filter);
             res.status(200).send(currencies);
         }
         catch (e) {
             next(e);
         }
+    }
+
+    createCurrency: RequestHandler = async (req: any, res, next: express.NextFunction) => {
+        try {
+            const currency = req.body;
+            await this.currencyService.createCurrency(currency);
+            res.status(200).send();
+        }
+        catch (e) {
+            next(e);
+        }
+    }
+
+    updateCurrency: RequestHandler = async (req: any, res, next: express.NextFunction) => {
+        try {
+            const currency = req.body;
+            await this.currencyService.updateCurrency(currency);
+            res.status(200).send();
+        }
+        catch (e) {
+            next(e);
+        }
+    }
+
+    deleteCurrency: RequestHandler = async (req: any, res, next: express.NextFunction) => {
+        try {
+            const filter: SearchFilter = CurrencyController.getQueryParams(req);
+            await this.currencyService.deleteCurrency(filter);
+            res.status(200).send();
+        }
+        catch (e) {
+            next(e);
+        }
+    }
+
+    static getQueryParams(request: express.Request) {
+        return {name: request.query.name, shortName: request.query.shortName};
     }
 }
