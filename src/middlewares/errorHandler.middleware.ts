@@ -1,6 +1,5 @@
 import {HttpException} from "../exceptions/HttpException";
 import express, {NextFunction} from "express";
-import {logger} from "../logger/tslogger";
 
 
 export function errorHandlerMiddleware(error: any, request: express.Request, response: express.Response, next: NextFunction) {
@@ -15,7 +14,7 @@ export function errorHandlerMiddleware(error: any, request: express.Request, res
         }
 
         if(status !== 401) {
-            logger.warn(error);
+            console.info(error);
         }
 
         response.status(status).json(payload).send();
@@ -26,7 +25,7 @@ export function errorHandlerMiddleware(error: any, request: express.Request, res
             }
         }
 
-        logger.warn(error);
+        console.info(error);
         response.status(500).json(payload).send();
     }
 

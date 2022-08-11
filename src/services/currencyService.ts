@@ -1,28 +1,25 @@
-import {DatabaseServiceInterface} from "./databases/database.service.interface";
 import {Collection, Db, MongoClient} from "mongodb";
-import {BaseService} from "./base.service";
 import {DBConnectionsService} from "./databases/DBConnections.service";
 import {Currency} from "../models/Currency";
 import {SearchFilter} from "../models/SearchFilter";
 import {HttpException} from "../exceptions/HttpException";
-import {logger} from "../logger/tslogger";
+import {config} from "../config";
 
-export class CurrencyService extends BaseService implements DatabaseServiceInterface{
+export class CurrencyService{
 
     client: MongoClient;
     db: Db;
     collection: Collection;
 
     constructor() {
-        super();
         this.connectDB().then()
     }
 
     async connectDB() {
         const dbConnection = DBConnectionsService.getInstance();
         this.client = await dbConnection.getMongoClient();
-        this.db = this.client.db(this.config.mongoDatabase);
-        this.collection = this.db.collection(this.config.mongoCollectionCurrencies);
+        this.db = this.client.db(config.mongoDatabase);
+        this.collection = this.db.collection(config.mongoCollectionCurrencies);
     }
 
     async getCurrencies(queryParams): Promise<Currency[]> {
@@ -31,7 +28,7 @@ export class CurrencyService extends BaseService implements DatabaseServiceInter
             return await this.collection.find(filter).toArray() as unknown as Currency[];
         }
         catch (e) {
-            logger.error(e);
+            console.error(e);
             throw new HttpException(500, 'Cannot get currencies.')
         }
     }
@@ -56,7 +53,7 @@ export class CurrencyService extends BaseService implements DatabaseServiceInter
             await this.collection.insertOne(currency);
         }
         catch (e) {
-            logger.error(e);
+            console.error(e);
             if(e instanceof HttpException) {
                 throw e;
             }
@@ -70,7 +67,7 @@ export class CurrencyService extends BaseService implements DatabaseServiceInter
             await this.collection.updateOne(filter, {$set: currency});
         }
         catch (e) {
-            logger.error(e);
+            console.error(e);
             throw new HttpException(500, 'Cannot update currency.')
         }
     }
@@ -81,7 +78,7 @@ export class CurrencyService extends BaseService implements DatabaseServiceInter
             await this.collection.deleteOne(filter);
         }
         catch (e) {
-            logger.error(e);
+            console.error(e);
             throw new HttpException(500, 'Cannot delete currency.')
         }
     }

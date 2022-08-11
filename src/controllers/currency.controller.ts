@@ -1,8 +1,8 @@
-import {BaseControllerInterface} from "./base.controller.interface";
 import express, {RequestHandler} from "express";
 import {CurrencyService} from "../services/currencyService";
 import {SearchFilter} from "../models/SearchFilter";
 import {validateCurrencyMiddleware} from "../middlewares/validateCurrency.middleware";
+import {BaseControllerInterface} from "./base.controller.interface";
 
 
 export class CurrencyController implements BaseControllerInterface{

@@ -1,24 +1,14 @@
 import {MongoClient} from "mongodb";
-const cluster = require('cluster');
-import {ConfigFactory} from "../../factories/configFactory";
-import {logger} from "../../logger/tslogger";
-import {MongoDBConnection} from "../../interfaces/MongoDBConnection";
+import {config} from "../../config";
 
-export class DBConnectionsService implements MongoDBConnection{
+export class DBConnectionsService{
     private static instance: DBConnectionsService
     private readonly mongoClient: Promise<MongoClient>
-    private readonly config = ConfigFactory.getConfig();
-    public static isConnected = false;
 
-    /***
-     *
-     * @param isMaster true if current thread is master from cluster
-     */
-    constructor(isMaster?: boolean) {
-        logger.info('Creating Mongo client', this.config.mongoDbUri);
-        this.mongoClient = MongoClient.connect(encodeURI(this.config.mongoDbUri)).then( async res => {
-                logger.info('Mongo client connected!');
-                DBConnectionsService.isConnected = true;
+    constructor() {
+        console.info('Creating Mongo client', config.mongoDbUri);
+        this.mongoClient = MongoClient.connect(encodeURI(config.mongoDbUri)).then( async res => {
+                console.info('Mongo client connected!');
                 return res;
             }
         );
@@ -26,7 +16,7 @@ export class DBConnectionsService implements MongoDBConnection{
 
     public static getInstance(){
         if (!DBConnectionsService.instance){
-            DBConnectionsService.instance = new DBConnectionsService(cluster.isMaster)
+            DBConnectionsService.instance = new DBConnectionsService()
         }
         return DBConnectionsService.instance;
     }
