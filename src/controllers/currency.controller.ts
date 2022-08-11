@@ -2,6 +2,7 @@ import {BaseControllerInterface} from "./base.controller.interface";
 import express, {RequestHandler} from "express";
 import {CurrencyService} from "../services/currencyService";
 import {SearchFilter} from "../models/SearchFilter";
+import {validateCurrencyMiddleware} from "../middlewares/validateCurrency.middleware";
 
 
 export class CurrencyController implements BaseControllerInterface{
@@ -14,8 +15,8 @@ export class CurrencyController implements BaseControllerInterface{
 
     initRouter(): void {
         this.router.get('/', this.getCurrencies);
-        this.router.post('/', this.createCurrency);
-        this.router.patch('/', this.updateCurrency);
+        this.router.post('/', validateCurrencyMiddleware, this.createCurrency);
+        this.router.patch('/', validateCurrencyMiddleware, this.updateCurrency);
         this.router.delete('/', this.deleteCurrency);
     }
 
@@ -64,6 +65,6 @@ export class CurrencyController implements BaseControllerInterface{
     }
 
     static getQueryParams(request: express.Request) {
-        return {name: request.query.name, shortName: request.query.shortName};
+        return {name: request.query.name, shortName: request.query.short_name};
     }
 }
