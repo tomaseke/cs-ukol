@@ -11,9 +11,9 @@ export class Server {
     constructor(port, controllers: BaseControllerInterface[]) {
         this.app = express();
         this.port = port;
-        this.initControllers(controllers);
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded());
+        this.initControllers(controllers);
         this.app.use(errorHandlerMiddleware);
     }
 

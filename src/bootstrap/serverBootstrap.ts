@@ -8,19 +8,19 @@ export class ServerBootstrap {
 
     protected server: Server;
     protected currencyService;
-    protected mostVolatileCurrenciesService;
+    protected mostIncreasingCurrenciesService;
 
     constructor() {
         this.currencyService = new CurrencyService();
-        this.mostVolatileCurrenciesService = new MostIncreasingCurrenciesService();
+        this.mostIncreasingCurrenciesService = new MostIncreasingCurrenciesService();
     }
 
     initServer(): void {
         const port = process.env.PORT || 8080;
-        // this might be an overkill for such simple app, but this design has proven as easily extendable
+        // this might be an overkill for such a simple app, but this design has proven as easily extendable
         this.server = new Server(Number.parseInt(port.toString()), [
                 new CurrencyController(this.currencyService),
-                new MostIncreasingCurrenciesController(this.mostVolatileCurrenciesService)
+                new MostIncreasingCurrenciesController(this.mostIncreasingCurrenciesService)
             ]
         );
         this.server.listen();

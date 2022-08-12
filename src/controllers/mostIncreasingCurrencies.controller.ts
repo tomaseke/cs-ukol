@@ -1,25 +1,26 @@
 import express, {RequestHandler} from "express";
 import {MostIncreasingCurrenciesService} from "../services/mostIncreasingCurrenciesService";
+import {validateQueryMiddleware} from "../middlewares/validateQuery.middleware";
 
 
 export class MostIncreasingCurrenciesController {
-    path = '/most-volatile';
+    path = '/most-increasing';
     router = express.Router();
 
-    constructor(private mostVolatileCurrenciesService: MostIncreasingCurrenciesService) {
+    constructor(private mostIncreasingCurrenciesService: MostIncreasingCurrenciesService) {
         this.initRouter();
     }
 
     initRouter(): void {
-        this.router.get('/', this.getMostVolatileCurrencies);
+        this.router.get('/', validateQueryMiddleware, this.getMostIncreasingCurrencies);
     }
 
-    getMostVolatileCurrencies: RequestHandler = async (req: any, res, next: express.NextFunction) => {
+    getMostIncreasingCurrencies: RequestHandler = async (req: any, res, next: express.NextFunction) => {
         try {
             const isoDate = req.query.date;
-            const numberOfTheMostVolatileCurrs = Number(req.query.count);
-            const mostVolatile = this.mostVolatileCurrenciesService.getMostIncreasingCurrencies(isoDate, numberOfTheMostVolatileCurrs);
-            res.status(200).send(mostVolatile);
+            const numberOfTheMostIncreasingCurrs = Number(req.query.count);
+            const mostIncreasing = this.mostIncreasingCurrenciesService.getMostIncreasingCurrencies(isoDate, numberOfTheMostIncreasingCurrs);
+            res.status(200).send(mostIncreasing);
         }
         catch (e) {
             next(e);

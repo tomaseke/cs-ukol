@@ -58,7 +58,7 @@ export class MostIncreasingCurrenciesService {
         return arrayOfCurrencies.slice(0, numberOfCurrencies);
     }
 
-    private createMapOfCurrenciesAndTheirDifferences(inputtedDate: string) {
+    private createMapOfCurrenciesAndTheirDifferences(inputtedDate: string): Map<string, number> {
         const currenciesAndTheirRates = new Map();
         for (const exchangeRate of mockExchangeRates) {
             if (!currenciesAndTheirRates.has(exchangeRate.shortName)) {
