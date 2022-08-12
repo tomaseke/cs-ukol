@@ -1,7 +1,8 @@
-import {CurrencyModel} from "../models/currency.model";
-import {FIVE_DAYS_IN_MS} from "../constants";
-
-const mockExchangeRates: CurrencyModel[] = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MostIncreasingCurrenciesService = void 0;
+const constants_1 = require("../constants");
+const mockExchangeRates = [
     {
         "name": "US Dollar",
         "shortName": "USD",
@@ -44,21 +45,17 @@ const mockExchangeRates: CurrencyModel[] = [
         "cnbMid": 10,
         "createdDate": "2022-08-16T11:55:32.397+00:00"
     }
-]
-
-export class MostIncreasingCurrenciesService {
-
+];
+class MostIncreasingCurrenciesService {
     constructor() {
     }
-
-    getMostIncreasingCurrencies(inputtedDate: string, numberOfCurrencies: number): string[] {
+    getMostIncreasingCurrencies(inputtedDate, numberOfCurrencies) {
         const currenciesAndTheirRates = this.createMapOfCurrenciesAndTheirDifferences(inputtedDate);
         const arrayOfCurrenciesAndRates = Array.from(currenciesAndTheirRates).sort((a, b) => b[1] - a[1]);
         const arrayOfCurrencies = arrayOfCurrenciesAndRates.map(array => array[0]);
         return arrayOfCurrencies.slice(0, numberOfCurrencies);
     }
-
-    private createMapOfCurrenciesAndTheirDifferences(inputtedDate: string): Map<string, number> {
+    createMapOfCurrenciesAndTheirDifferences(inputtedDate) {
         const currenciesAndTheirRates = new Map();
         for (const exchangeRate of mockExchangeRates) {
             if (!currenciesAndTheirRates.has(exchangeRate.shortName)) {
@@ -69,15 +66,11 @@ export class MostIncreasingCurrenciesService {
         }
         return currenciesAndTheirRates;
     }
-
-    /**
-     *  this will evaluate to true only if it is exactly 5 days
-     *   if we wanted something like 5.5 day to be considered as 5 days also, the date difference would have to be in range
-     * @param inputtedDate
-     * @param secondDate
-     * @private
-     */
-    private checkDateDifference(inputtedDate: string, secondDate: string): boolean {
-        return (new Date(inputtedDate).getTime() - new Date(secondDate).getTime()) === FIVE_DAYS_IN_MS;
+    checkDateDifference(inputtedDate, secondDate) {
+        // this will evaluate to true only if it is exactly 5 days
+        // if we wanted something like 5.5 day to be considered as 5 days also, the date difference would have to be in range
+        return (new Date(inputtedDate).getTime() - new Date(secondDate).getTime()) === constants_1.FIVE_DAYS_IN_MS;
     }
 }
+exports.MostIncreasingCurrenciesService = MostIncreasingCurrenciesService;
+//# sourceMappingURL=mostIncreasingCurrenciesService.js.map

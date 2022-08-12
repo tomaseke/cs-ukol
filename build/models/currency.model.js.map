@@ -1,0 +1,1 @@
+{"version":3,"file":"currency.model.js","sourceRoot":"","sources":["../../src/models/currency.model.ts"],"names":[],"mappings":";;;AAAA,MAAa,aAAa;CAMzB;AAND,sCAMC;AAEY,QAAA,gBAAgB,GAAG;IAC5B,IAAI,EAAE,QAAQ;IACd,SAAS,EAAE,QAAQ;IACnB,OAAO,EAAE,QAAQ;IACjB,MAAM,EAAE,QAAQ;IAChB,WAAW,EAAE,QAAQ;CACxB,CAAA"}

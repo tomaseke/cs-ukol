@@ -5,8 +5,8 @@ import moment from "moment";
 
 export function validateQueryMiddleware(request: express.Request, response: express.Response, next: NextFunction) {
     try {
-        const date = request.query.date;
-        const count = request.query.count;
+        const date = request.query.date as string;
+        const count = request.query.count as unknown as number;
         if(!date) {
             throw new HttpException(400, 'Date parameter is missing.');
         }

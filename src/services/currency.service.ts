@@ -53,7 +53,7 @@ export class CurrencyService {
     async updateCurrency(currency: CurrencyModel): Promise<void> {
         try {
             const filter = { shortName: currency.shortName };
-            await this.collection.updateOne(filter, {$set: currency});
+            await this.collection.replaceOne(filter, currency);
         }
         catch (e) {
             console.error(e);

@@ -16,7 +16,7 @@ export class CurrencyController implements BaseControllerInterface{
     initRouter(): void {
         this.router.get('/', this.getCurrencies);
         this.router.post('/', validateCurrencyMiddleware, this.createCurrency);
-        this.router.patch('/', validateCurrencyMiddleware, this.updateCurrency);
+        this.router.put('/', validateCurrencyMiddleware, this.updateCurrency);
         this.router.delete('/', this.deleteCurrency);
     }
 
@@ -65,6 +65,6 @@ export class CurrencyController implements BaseControllerInterface{
     }
 
     static getQueryParams(request: express.Request) {
-        return {name: request.query.name, shortName: request.query.short_name};
+        return {name: request.query.name as string, shortName: request.query.short_name as string};
     }
 }
