@@ -1,12 +1,12 @@
 import express, {RequestHandler} from "express";
-import {MostVolatileCurrenciesService} from "../services/mostVolatileCurrencies.service";
+import {MostIncreasingCurrenciesService} from "../services/mostIncreasingCurrenciesService";
 
 
-export class MostVolatileCurrenciesController{
+export class MostIncreasingCurrenciesController {
     path = '/most-volatile';
     router = express.Router();
 
-    constructor(private mostVolatileCurrenciesService: MostVolatileCurrenciesService) {
+    constructor(private mostVolatileCurrenciesService: MostIncreasingCurrenciesService) {
         this.initRouter();
     }
 
@@ -18,7 +18,7 @@ export class MostVolatileCurrenciesController{
         try {
             const isoDate = req.query.date;
             const numberOfTheMostVolatileCurrs = Number(req.query.count);
-            const mostVolatile = this.mostVolatileCurrenciesService.getMostVolatileCurrencies(isoDate, numberOfTheMostVolatileCurrs);
+            const mostVolatile = this.mostVolatileCurrenciesService.getMostIncreasingCurrencies(isoDate, numberOfTheMostVolatileCurrs);
             res.status(200).send(mostVolatile);
         }
         catch (e) {

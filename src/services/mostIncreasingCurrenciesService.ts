@@ -1,4 +1,5 @@
 import {CurrencyModel} from "../models/currency.model";
+import {FIVE_DAYS_IN_MS} from "../constants";
 
 const mockExchangeRates: CurrencyModel[] = [
     {
@@ -45,23 +46,33 @@ const mockExchangeRates: CurrencyModel[] = [
     }
 ]
 
-export class MostVolatileCurrenciesService{
+export class MostIncreasingCurrenciesService {
 
+    constructor() {
+    }
 
-    FIVE_DAYS_IN_MS = 4.32e+8;
-    constructor() {}
-
-    getMostVolatileCurrencies(inputtedDate: string, numberOfCurrencies: number): string[] {
-        const currenciesAndTheirRates = new Map();
-        for (const exchangeRate of mockExchangeRates) {
-            if(!currenciesAndTheirRates.has(exchangeRate.shortName)) {
-                const rateWithInputtedDate = mockExchangeRates.find(rate => rate.createdDate === inputtedDate && rate.shortName === exchangeRate.shortName);
-                const exchangeRateBeforeFiveDays = mockExchangeRates.find(rate => (new Date(inputtedDate).getTime() - new Date(rate.createdDate).getTime()) === this.FIVE_DAYS_IN_MS && rate.shortName === exchangeRate.shortName);
-                currenciesAndTheirRates.set(exchangeRate.shortName, rateWithInputtedDate.cnbMid - exchangeRateBeforeFiveDays.cnbMid);
-            }
-        }
+    getMostIncreasingCurrencies(inputtedDate: string, numberOfCurrencies: number): string[] {
+        const currenciesAndTheirRates = this.createMapOfCurrenciesAndTheirDifferences(inputtedDate);
         const arrayOfCurrenciesAndRates = Array.from(currenciesAndTheirRates).sort((a, b) => b[1] - a[1]);
         const arrayOfCurrencies = arrayOfCurrenciesAndRates.map(array => array[0]);
         return arrayOfCurrencies.slice(0, numberOfCurrencies);
+    }
+
+    private createMapOfCurrenciesAndTheirDifferences(inputtedDate: string) {
+        const currenciesAndTheirRates = new Map();
+        for (const exchangeRate of mockExchangeRates) {
+            if (!currenciesAndTheirRates.has(exchangeRate.shortName)) {
+                const rateWithInputtedDate = mockExchangeRates.find(rate => rate.createdDate === inputtedDate && rate.shortName === exchangeRate.shortName);
+                const exchangeRateBeforeFiveDays = mockExchangeRates.find(rate => this.checkDateDifference(inputtedDate, rate.createdDate) && rate.shortName === exchangeRate.shortName);
+                currenciesAndTheirRates.set(exchangeRate.shortName, rateWithInputtedDate.cnbMid - exchangeRateBeforeFiveDays.cnbMid);
+            }
+        }
+        return currenciesAndTheirRates;
+    }
+
+    private checkDateDifference(inputtedDate: string, secondDate: string): boolean {
+        // this will evaluate to true only if it is exactly 5 days
+        // if we wanted something like 5.5 day to be considered as 5 days also, the date difference would have to be in range
+        return (new Date(inputtedDate).getTime() - new Date(secondDate).getTime()) === FIVE_DAYS_IN_MS;
     }
 }
