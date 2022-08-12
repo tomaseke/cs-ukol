@@ -6,7 +6,6 @@ export class ValidateRequiredProps{
 
     static validate(request: express.Request) {
         const inputtedCurrency = request.body;
-        console.log(inputtedCurrency)
         const currencyEntries = Object.entries(currencyAsObject);
         for (const entry of currencyEntries) {
             if(!inputtedCurrency[entry[0]]) {
