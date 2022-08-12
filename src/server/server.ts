@@ -1,6 +1,7 @@
 import express from 'express';
 import {errorHandlerMiddleware} from "../middlewares/errorHandler.middleware";
 import {BaseControllerInterface} from "../controllers/base.controller.interface";
+import * as http from "http";
 
 const bodyParser = require('body-parser');
 
@@ -17,11 +18,11 @@ export class Server {
         this.app.use(errorHandlerMiddleware);
     }
 
-    listen() {
+    listen(): http.Server  {
         return this.app.listen(this.port, () => console.log(`Server listening on port ${this.port}`));
     }
 
-    private initControllers(controllers: BaseControllerInterface[]) {
+    private initControllers(controllers: BaseControllerInterface[]): void {
         controllers.forEach(controller => this.app.use(controller.path, controller.router));
     }
 }

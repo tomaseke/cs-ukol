@@ -6,7 +6,7 @@ export class DbConnectionService {
     private readonly mongoClient: Promise<MongoClient>
 
     constructor() {
-        console.info('Creating Mongo client', config.mongoDbUri);
+        console.info('Creating Mongo client:', config.mongoDbUri);
         this.mongoClient = MongoClient.connect(encodeURI(config.mongoDbUri)).then( async res => {
                 console.info('Mongo client connected!');
                 return res;
@@ -14,14 +14,14 @@ export class DbConnectionService {
         );
     }
 
-    static getInstance(){
+    static getInstance(): DbConnectionService {
         if (!DbConnectionService.instance){
             DbConnectionService.instance = new DbConnectionService();
         }
         return DbConnectionService.instance;
     }
 
-    getMongoClient(){
+    getMongoClient(): Promise<MongoClient> {
         return this.mongoClient;
     }
 }

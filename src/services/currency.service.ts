@@ -15,7 +15,7 @@ export class CurrencyService {
         this.connectDB().then()
     }
 
-    async connectDB() {
+    async connectDB(): Promise<void> {
         const dbConnection = DbConnectionService.getInstance();
         this.client = await dbConnection.getMongoClient();
         this.db = this.client.db(config.mongoDatabase);

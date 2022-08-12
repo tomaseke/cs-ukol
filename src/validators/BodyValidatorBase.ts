@@ -12,7 +12,7 @@ export class BodyValidatorBase {
     constructor(private request: express.Request) {
     }
 
-    validate() {
+    validate(): void {
         for (const validator of this.validators) {
             validator.validate(this.request);
         }
